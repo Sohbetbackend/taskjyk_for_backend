@@ -86,3 +86,22 @@ func InsertUser(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"result": nil, "message": "Success Input User"})
 	}
 }
+
+func DeleteUser(c *gin.Context) {
+	var db, errdb = Conf.Connectdb()
+	if errdb != nil {
+		c.JSON(http.StatusNotFound, gin.H{"result": "Missing Connection"})
+		log.Println("Missing Connection")
+		return
+	}
+	defer db.Close()
+
+	var UserID = c.Param("id")
+
+	_, err := db.Query("DELETE FROM eMekdep WHERE id = ?", UserID)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"result": err, "message": "Failed to delete user"})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"result": nil, "message": "Successfully Deleted user"})
+	}
+}

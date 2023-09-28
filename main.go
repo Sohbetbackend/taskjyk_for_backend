@@ -14,6 +14,7 @@ func main() {
 		v1.GET("/users", Cuser.GetUsers)
 		v1.PUT("/users/:id", Cuser.UpdateUser)
 		v1.POST("/users", Cuser.InsertUser)
+		v1.DELETE("/users/:id", Cuser.DeleteUser)
 	}
 	router.Run(":8080")
 
