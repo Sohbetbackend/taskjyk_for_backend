@@ -13,6 +13,7 @@ func main() {
 	{
 		v1.GET("/users", Cuser.GetUsers)
 		v1.PUT("/users/:id", Cuser.UpdateUser)
+		v1.POST("/users", Cuser.InsertUser)
 	}
 	router.Run(":8080")
 
