@@ -6,7 +6,5 @@ import (
 )
 
 func main() {
-
-	run.SetupRoutes(context)
-	run.Run(":8080")
+	run.SetupRoutes()
 }

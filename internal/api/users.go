@@ -15,4 +15,5 @@ func SetupRoutes() {
 		v1.POST("/users", Cuser.CreateUser)
 		v1.DELETE("/users/:id", Cuser.DeleteUser)
 	}
+	router.Run(":8080")
 }

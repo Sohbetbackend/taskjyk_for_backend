@@ -2,7 +2,6 @@ package store
 
 import (
 	"database/sql"
-	"log"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -14,12 +13,4 @@ func Connectdb() (*sql.DB, error) {
 	}
 	err = db.Ping()
 	return db, err
-}
-
-func CheckConnection() {
-	db, err := Connectdb()
-	if err != nil {
-		log.Println("could not load the database")
-	}
-	defer db.Close()
 }
