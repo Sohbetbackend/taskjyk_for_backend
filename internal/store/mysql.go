@@ -17,11 +17,9 @@ func Connectdb() (*sql.DB, error) {
 }
 
 func CheckConnection() {
-	var db, err = Connectdb()
+	db, err := Connectdb()
 	if err != nil {
-		log.Println("Missing connection")
-		return
+		log.Println("could not load the database")
 	}
 	defer db.Close()
-
 }
