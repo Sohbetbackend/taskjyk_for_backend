@@ -1,81 +1,59 @@
 package store
 
 import (
-	"log"
-	"net/http"
+	"fmt"
 
-	ModelUser "github.com/Sohbetbackend/eMekdep/internal/models"
-	"github.com/gin-gonic/gin"
+	"github.com/Sohbetbackend/eMekdep/internal/models"
 )
 
-func GetAllUsers(c *gin.Context) {
-	db, err := Connectdb()
-	if err != nil {
-		log.Println("could not load the database")
-	}
-	defer db.Close()
+func GetAllUsers() []models.Users {
 
-	var ResultUsers ModelUser.Users
-	allusers := db.QueryRow("SELECT * FROM users").
-		Scan(&ResultUsers.ID, &ResultUsers.Firstname, &ResultUsers.Lastname, &ResultUsers.Middlename, &ResultUsers.Username, &ResultUsers.Phone, &ResultUsers.Email, &ResultUsers.Birthday, &ResultUsers.Address)
-	if allusers != nil {
-		c.JSON(http.StatusNotFound, gin.H{"success": false, "users": err, "message": "Failed to get users"})
-	} else {
-		c.JSON(http.StatusOK, gin.H{"success": true, "users": &ResultUsers})
+	results, err := db.Query("SELECT * FROM users")
+	if err != nil {
+		fmt.Println("error", err.Error())
+		return nil
 	}
+
+	users := []models.Users{}
+
+	for results.Next() {
+		var user models.Users
+		err = results.Scan(&user.ID, &user.Firstname, &user.Lastname, &user.Middlename, &user.Username, &user.Phone, &user.Email, &user.Birthday, &user.Address)
+
+		if err != nil {
+			panic(err.Error())
+		}
+
+		users = append(users, user)
+
+	}
+	return users
 }
 
-func UpdateUser(c *gin.Context) {
-	db, err := Connectdb()
-	if err != nil {
-		log.Println("could not load the database")
-	}
-	defer db.Close()
+func UpdateUser(m models.Users) {
 
-	var updateuser ModelUser.Users
-	c.BindJSON(&updateuser)
-	var ID = c.Param("id")
-
-	update, err := db.Query("UPDATE users SET firstname = ?, lastname = ?, middlename = ?, username = ?, phone = ?, email = ?, birthday = ?, address = ? where id = ?", updateuser.Firstname, updateuser.Lastname, updateuser.Middlename, updateuser.Username, updateuser.Phone, updateuser.Email, updateuser.Birthday, updateuser.Address, ID)
+	update, err := db.Query("UPDATE users SET first_name = ?, last_name = ?, middle_name = ?, user_name = ?, phone = ?, email = ?, birthday = ?, address = ? where id = ?", m.Firstname, m.Lastname, m.Middlename, m.Username, m.Phone, m.Email, m.Birthday, m.Address, m.ID)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"success": false, "users": err, "message": "Failed update user"})
-	} else {
-		c.JSON(http.StatusOK, gin.H{"success": true, "users": &updateuser, "message": "Success Update User"})
+		fmt.Println("Err", err.Error())
 	}
-	defer update.Close()
+
 }
 
-func DeleteUser(c *gin.Context) {
-	db, err := Connectdb()
-	if err != nil {
-		log.Println("could not load the database")
-	}
-	defer db.Close()
+func DeleteUser(m models.Users) {
+	delete, err := db.Query("DELETE FROM users WHERE id = ?", m.ID)
 
-	var UserID = c.Param("id")
-	delete, err := db.Query("DELETE FROM eMekdep WHERE id = ?", UserID)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"success": false, "users": err, "message": "Failed to delete user"})
-	} else {
-		c.JSON(http.StatusOK, gin.H{"success": true, "users": nil, "message": "Successfully Deleted user"})
+		fmt.Println("Err", err.Error())
+
+		return
 	}
 	defer delete.Close()
 }
 
-func CreateUser(c *gin.Context) {
-	db, err := Connectdb()
-	if err != nil {
-		log.Println("could not load the database")
-	}
-	defer db.Close()
+func CreateUser(m models.Users) {
+	insert, err := db.Query("INSERT INTO users (first_name, last_name, middle_name, user_name, phone, email, birthday, address) VALUES (?,?,?,?,?,?,?,?)", m.Firstname, m.Lastname, m.Middlename, m.Username, m.Phone, m.Email, m.Birthday, m.Address)
 
-	var adduser ModelUser.Users
-	c.BindJSON(&adduser)
-	insert, err := db.Query("INSERT INTO eMekdep (first_name, last_name, middle_name, user_name, phone, email, birthday, address) VALUES (?,?,?,?,?,?,?,?)", adduser.Firstname, adduser.Lastname, adduser.Middlename, adduser.Username, adduser.Phone, adduser.Email, adduser.Birthday, adduser.Address)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"success": false, "users": err, "message": "Failed Input User"})
-	} else {
-		c.JSON(http.StatusOK, gin.H{"success": true, "users": &adduser, "message": "Success Input User"})
+		panic(err.Error())
 	}
-	defer insert.Close()
 }

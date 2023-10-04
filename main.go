@@ -1,10 +1,12 @@
 package main
 
 import (
-	run "github.com/Sohbetbackend/eMekdep/internal/api"
+	"github.com/Sohbetbackend/eMekdep/internal/api"
+	"github.com/Sohbetbackend/eMekdep/internal/store"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
-	run.SetupRoutes()
+	api.SetupRoutes()
+	store.Connectdb()
 }
