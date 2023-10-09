@@ -15,4 +15,12 @@ type Users struct {
 	// Gender          int       `json:"gender"`
 	Address string `json:"address"`
 	//Avatar
+
+}
+
+type Classroom struct {
+	ID   int64  `json:"id"`
+	Name string `json:"name"`
+	// avatar
+	Desc string `json"description"`
 }

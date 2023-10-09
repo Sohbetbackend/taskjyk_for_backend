@@ -8,6 +8,15 @@ CREATE TABLE users (
     phone       INT,
     email       VARCHAR(60),
     birthday    VARCHAR(50),
+    gender      INT NOT NULL,
     address     VARCHAR(50),
+    PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS classroom;
+CREATE TABLE classroom (
+    id          INT AUTO_INCREMENT NOT NULL,
+    name        VARCHAR(50) NOT NULL,
+    description VARCHAR(50) NOT NULL,
     PRIMARY KEY (`id`)
 );

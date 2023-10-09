@@ -1,17 +1,15 @@
 package store
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/Sohbetbackend/eMekdep/internal/models"
 )
 
-func GetAllUsers() []models.Users {
-
+func GetAllUsers() ([]models.Users, error) {
 	results, err := db.Query("SELECT * FROM users")
 	if err != nil {
-		fmt.Println("error", err.Error())
-		return nil
+		log.Fatal("error", err.Error())
 	}
 
 	users := []models.Users{}
@@ -27,33 +25,30 @@ func GetAllUsers() []models.Users {
 		users = append(users, user)
 
 	}
-	return users
-}
-
-func UpdateUser(m models.Users) {
-
-	update, err := db.Query("UPDATE users SET first_name = ?, last_name = ?, middle_name = ?, user_name = ?, phone = ?, email = ?, birthday = ?, address = ? where id = ?", m.Firstname, m.Lastname, m.Middlename, m.Username, m.Phone, m.Email, m.Birthday, m.Address, m.ID)
-	if err != nil {
-		fmt.Println("Err", err.Error())
-	}
-
+	return users, err
 }
 
 func DeleteUser(m models.Users) {
-	delete, err := db.Query("DELETE FROM users WHERE id = ?", m.ID)
 
+	_, err := db.Query("DELETE FROM users WHERE id = ?", m.ID)
 	if err != nil {
-		fmt.Println("Err", err.Error())
-
-		return
+		log.Fatal("Err", err.Error())
 	}
-	defer delete.Close()
+
 }
 
 func CreateUser(m models.Users) {
-	insert, err := db.Query("INSERT INTO users (first_name, last_name, middle_name, user_name, phone, email, birthday, address) VALUES (?,?,?,?,?,?,?,?)", m.Firstname, m.Lastname, m.Middlename, m.Username, m.Phone, m.Email, m.Birthday, m.Address)
+	_, err := db.Query("INSERT INTO users (first_name, last_name, middle_name, user_name, phone, email, birthday, address) VALUES (?,?,?,?,?,?,?,?)", m.Firstname, m.Lastname, m.Middlename, m.Username, m.Phone, m.Email, m.Birthday, m.Address)
 
 	if err != nil {
-		panic(err.Error())
+		log.Fatal("Err", err.Error())
+	}
+}
+
+func UpdateUser(m models.Users) {
+	_, err := db.Query("UPDATE users SET first_name = ?,last_name = ?, middle_name = ?, user_name = ?, phone = ?, email = ?, birthday = ?, address = ? where user_id = ?", m.Username, m.Lastname, m.Middlename, m.Username, m.Phone, m.Email, m.Birthday, m.Address, m.ID)
+
+	if err != nil {
+		log.Fatal("Err", err.Error())
 	}
 }

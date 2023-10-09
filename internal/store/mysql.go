@@ -9,11 +9,12 @@ import (
 var db *sql.DB
 
 func Connectdb() error {
-	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/eMekdep")
+	var err error
+	db, err = sql.Open("mysql", "root:root@tcp(localhost:3306)/emekdep")
 	if err != nil {
-		return nil
+		return err
 	}
-	defer db.Close()
+	// defer db.Close()
 	err = db.Ping()
 	return err
 }
