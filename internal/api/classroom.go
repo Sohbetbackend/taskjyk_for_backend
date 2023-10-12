@@ -2,7 +2,6 @@ package api
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/Sohbetbackend/eMekdep/internal/models"
 
@@ -16,7 +15,7 @@ func GetClassrooms(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"success": false, "classrooms": nil, "message": "Failed to get all user"})
 	}
-	c.JSON(http.StatusOK, gin.H{"success": true, "classrooms": &classrooms})
+	c.JSON(http.StatusOK, gin.H{"success": true, "classrooms": classrooms})
 }
 
 func CreateClassroom(c *gin.Context) {
@@ -40,19 +39,4 @@ func DeleteClassroom(c *gin.Context) {
 	}
 	store.DeleteClass(deleteclassroom)
 	c.JSON(http.StatusOK, gin.H{"success": true, "classroom": nil, "message": "Successfully Deleted Class"})
-}
-
-func GetClassroom(c *gin.Context) {
-	id := c.Param("id")
-	id2, err := strconv.Atoi(id)
-	if err != nil {
-		return
-	}
-
-	room := store.GetClass(id2)
-
-	if room != nil {
-		c.JSON(http.StatusNotFound, gin.H{"success": false, "classroom": nil, "message": "Failed to get classroom"})
-	}
-	c.JSON(http.StatusOK, gin.H{"success": true, "classroom": room})
 }

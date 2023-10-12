@@ -16,7 +16,7 @@ func GetAllUsers() ([]models.Users, error) {
 
 	for results.Next() {
 		var user models.Users
-		err = results.Scan(&user.ID, &user.Firstname, &user.Lastname, &user.Middlename, &user.Username, &user.Phone, &user.Email, &user.Birthday, &user.Address)
+		err = results.Scan(&user.ID, &user.Firstname, &user.Lastname, &user.Middlename, &user.Username, &user.Phone, &user.Email, &user.Birthday, &user.Gender, &user.Address)
 
 		if err != nil {
 			panic(err.Error())
@@ -38,7 +38,7 @@ func DeleteUser(m models.Users) {
 }
 
 func CreateUser(m models.Users) {
-	_, err := db.Query("INSERT INTO users (first_name, last_name, middle_name, user_name, phone, email, birthday, address) VALUES (?,?,?,?,?,?,?,?)", m.Firstname, m.Lastname, m.Middlename, m.Username, m.Phone, m.Email, m.Birthday, m.Address)
+	_, err := db.Query("INSERT INTO users (first_name, last_name, middle_name, user_name, phone, email, birthday, gender, address) VALUES (?,?,?,?,?,?,?,?,?)", m.Firstname, m.Lastname, m.Middlename, m.Username, m.Phone, m.Email, m.Birthday, m.Gender, m.Address)
 
 	if err != nil {
 		log.Fatal("Err", err.Error())

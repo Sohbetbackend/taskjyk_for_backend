@@ -20,7 +20,6 @@ func SetupRoutes() {
 		v1.GET("/classrooms", GetClassrooms)
 		v1.POST("/classrooms", CreateClassroom)
 		v1.DELETE("/classrooms/:id", DeleteClassroom)
-		v1.GET("/classrooms/:id", GetClassroom)
 	}
 	router.Run(":8080")
 }

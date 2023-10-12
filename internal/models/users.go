@@ -12,15 +12,7 @@ type Users struct {
 	// PhoneVerifiedAt time.Time `json:"phone_verified_at"`
 	// EmailVerifiedAt time.Time `json:"email_verified_at"`
 	Birthday string `json:"birthday"`
-	// Gender          int       `json:"gender"`
-	Address string `json:"address"`
+	Gender   int    `json:"gender"`
+	Address  string `json:"address"`
 	//Avatar
-
-}
-
-type Classroom struct {
-	ID   int64  `json:"id"`
-	Name string `json:"name"`
-	// avatar
-	Desc string `json"description"`
 }

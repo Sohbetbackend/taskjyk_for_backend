@@ -62,3 +62,11 @@ func GetClass(id int) *models.Classroom {
 	}
 	return room
 }
+
+func UpdateClass(m models.Classroom) {
+
+	_, err := db.Query("UPDATE classroom SET name = ?, description = ?", m.Name, m.Desc)
+	if err != nil {
+		log.Fatal("Error", err.Error())
+	}
+}
