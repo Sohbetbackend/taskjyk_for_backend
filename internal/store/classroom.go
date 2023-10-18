@@ -24,7 +24,6 @@ func GetAllClasses() ([]models.Classroom, error) {
 		classroom = append(classroom, room)
 	}
 
-	//
 	return classroom, err
 }
 

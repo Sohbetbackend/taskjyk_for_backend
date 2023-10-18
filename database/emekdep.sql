@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS classroom;
 CREATE TABLE classroom (
     id          INT AUTO_INCREMENT NOT NULL,
     name        VARCHAR(50) NOT NULL,
+    avatar      VARCHAR(150),
     description VARCHAR(50) NOT NULL,
     PRIMARY KEY (`id`)
 );
