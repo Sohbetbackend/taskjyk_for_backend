@@ -27,7 +27,7 @@ func GetAllClasses() ([]models.Classroom, error) {
 	return classroom, err
 }
 
-func InsertClass(m models.Classroom) {
+func CreateClass(m models.Classroom) {
 	_, err := db.Query("INSERT INTO classroom (name, description) VALUES (?,?)", m.Name, m.Desc)
 
 	if err != nil {
@@ -43,7 +43,7 @@ func DeleteClass(m models.Classroom) {
 	}
 }
 
-func GetClass(id int) *models.Classroom {
+func GetClassByID(id int) *models.Classroom {
 	room := &models.Classroom{}
 
 	getclassroom, err := db.Query("SELECT * FROM classroom WHERE id=?", id)

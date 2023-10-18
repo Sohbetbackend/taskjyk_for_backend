@@ -26,7 +26,7 @@ func CreateClassroom(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"success": false, "classroom": nil, "message": "Failed to create class"})
 	}
-	store.InsertClass(addclassroom)
+	store.CreateClass(addclassroom)
 	c.JSON(http.StatusOK, gin.H{"success": true, "classroom": addclassroom, "message": "Successfully added class"})
 }
 
